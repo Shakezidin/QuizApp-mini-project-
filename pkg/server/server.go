@@ -9,7 +9,7 @@ type ServerStruct struct {
 
 // StartServer starts the server on the specified port.
 func (s *ServerStruct) StartServer(port string) {
-	s.R.Run(":" + port) // Run the server on the specified port.
+	s.R.Run("localhost:" + port) // Run the server on the specified port.
 }
 
 // Server creates a new server instance.

@@ -9,10 +9,11 @@ import (
 )
 
 // ConnectToRedis creates and returns a new Redis client based on the provided configuration.
-func ConnectToRedis(cfg *Config) (*redis.Client, error) {
+func ConnectToRedis(cfg Config) (*redis.Client, error) {
 	// Create a new Redis client
 	client := redis.NewClient(&redis.Options{
-		Addr: cfg.REDISHOST,
+		Addr: "localhost:"+cfg.REDISHOST,
+		Password: "Sinu1090.",
 		DB:   0,
 	})
 

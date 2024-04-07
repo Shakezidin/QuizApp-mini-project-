@@ -18,6 +18,13 @@ func (a *AdminRepository) FindAdminRepo(username string) (*model.Admin, error) {
 	return &admin, nil
 }
 
+func (a *AdminRepository) CreateUser(user model.User) (*model.User, error) {
+	if err := a.db.Create(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
 func NewAdminRepo(db *gorm.DB) AdminRepository {
 	return AdminRepository{
 		db: db,

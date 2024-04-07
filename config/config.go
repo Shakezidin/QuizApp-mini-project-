@@ -17,6 +17,7 @@ type Config struct {
 	REDISPassword string
 	SERVERPORT    string
 	SECRETKEY     string
+	QUIZAUTH      string
 }
 
 func LoadConfig() (*Config, error) {
@@ -34,6 +35,8 @@ func LoadConfig() (*Config, error) {
 	config.REDISHOST = os.Getenv("REDISHOST")
 	config.REDISPassword = os.Getenv("REDISPASSWORD")
 	config.SECRETKEY = os.Getenv("SECRETKEY")
+	config.QUIZAUTH = os.Getenv("QUIZAUTH")
+	config.SERVERPORT = os.Getenv("SERVERPORT")
 
 	return &config, nil
 }

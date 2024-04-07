@@ -4,12 +4,10 @@ import (
 	"context"
 	"crypto/rand"
 	"math/big"
-	"net/http"
 	"net/smtp"
 	"os"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 )
 
@@ -50,21 +48,25 @@ func (s *Smtp) sendEmail(name, msg, email string) {
 }
 
 // VerifyOTP verifies if the provided OTP matches the stored OTP in Redis.
-func (s *Smtp) VerifyOTP(superkey, otpInput string, c *gin.Context) bool {
+func (s *Smtp) VerifyOTP(superkey, otpInput string) bool {
 	// OTP verification in Redis
 	otp, err := s.ReddisClient.Get(context.Background(), superkey).Result()
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"status": "false", "error": "Error retrieving data from Redis"})
 		return false
 	}
 
 	if otp == otpInput {
 		err := s.ReddisClient.Del(context.Background(), superkey).Err()
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"status": "false", "error": "Error deleting OTP from Redis"})
 			return false
 		}
 		return true
 	}
 	return false
+}
+
+func NewSMTP(redis *redis.Client) Smtp {
+	return Smtp{
+		ReddisClient: redis,
+	}
 }

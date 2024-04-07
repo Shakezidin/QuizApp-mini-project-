@@ -4,20 +4,19 @@ import (
 	"log"
 
 	"github.com/Shakezidin/config"
-	admin "github.com/Shakezidin/pkg/admin/di"
-	sr "github.com/Shakezidin/pkg/server"
-	user "github.com/Shakezidin/pkg/user/di"
+	"github.com/Shakezidin/pkg/server"
+	"github.com/Shakezidin/pkg/user/di"
 )
 
 func main() {
-	config, err := config.LoadConfig()
+	cfg, err := config.LoadConfig()
 	if err != nil {
-		log.Printf("Error Loading Config Files, error: %v", err)
+		log.Printf("Error loading config files: %v", err)
+		return
 	}
 
-	engine := sr.Server()
-	admin.Init(engine.R, config)
-	user.Init(engine.R, config)
+	engine := server.Server()
+	di.Init(engine.R, *cfg)
 
-	engine.StartServer(config.SERVERPORT)
+	engine.StartServer(cfg.SERVERPORT)
 }
