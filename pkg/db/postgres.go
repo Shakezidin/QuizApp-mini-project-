@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func Database(config *config.Config) *gorm.DB {
+func Database(config config.Config) *gorm.DB {
 	host := config.Host
 	// user := config.User
 	password := config.Password
